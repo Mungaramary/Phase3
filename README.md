@@ -138,7 +138,8 @@ plt.legend(prop={'size': 13}, loc='lower right')
 
 plt.show()
 
-![roc](https://github.com/Mungaramary/Phase3/assets/99483846/aec1e842-c451-4357-ac84-d741f9cb253f)
+![2](https://github.com/Mungaramary/Phase3/assets/99483846/5c124e8a-15f2-4db8-bca4-69c7cb7fd3aa)
+
 
 The best performing models will have a curve that hugs the upper left of the graph, which is the the random forest classifier in this case
 
