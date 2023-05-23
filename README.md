@@ -1,5 +1,5 @@
 # Phase3
-## SYRIATEL CUSTOMER CHURN ANALYSIS
+## SYRIA TEL CUSTOMER CHURN ANALYSIS
 ![header](https://github.com/Mungaramary/Phase3/assets/99483846/be65bd9d-7bfd-40cf-a958-a4861e1735e3)
 
 ### OVERVIEW
@@ -54,8 +54,16 @@ total intl charge: total amount of money the user was charged by the Telecom com
 customer service calls: number of customer service calls the user has done
 
 churn: true if the user terminated the contract, otherwise false(left the company)
+### EDA 
+THE CHURN DISTRIBUTION 
 
-### MODELLING 
+![churn](https://github.com/Mungaramary/Phase3/assets/99483846/1ef9bbb2-6fcb-4ae8-a153-3916b50c1eee)
+
+Distribution of charn based on customer service calls 
+![customer_service_call_churn](https://github.com/Mungaramary/Phase3/assets/99483846/862eb8e8-c4d2-415d-a7c2-8c540a889beb)
+As from above we can see that as long as the calls exceed 4 then the rate of churn highens showing more customers leaving the business.
+
+### MODELLING
 ####  1) Gradient Boosting Classifier
 
 gbm_model = GradientBoostingClassifier() 
@@ -77,4 +85,87 @@ F1 score for testing set:  0.77903
 Recall score for testing set:  0.8062
 Precision score for testing set:  0.75362
 ![gradient boost 1](https://github.com/Mungaramary/Phase3/assets/99483846/18381e29-9f58-404a-8dc9-411c629b6524)
+
+#### After trying out various models . we use :
+
+##### An ROC curve (receiver operating characteristic curve) that is  a graph showing the performance of a classification model at all classification thresholds. The curve plots two parameters: True Positive Rate. False Positive Rate
+
+from sklearn.metrics import plot_roc_curve
+
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+
+from sklearn.tree import DecisionTreeClassifier
+
+classifiers = [LogisticRegression(),
+
+               RandomForestClassifier(),
+               
+               DecisionTreeClassifier(),
+               
+               GradientBoostingClassifier()]
+
+Create an empty list to store the results
+
+result_table = []
+
+Train the models and record the results
+
+for cls in classifiers:
+   
+model = cls.fit(X_train_over, y_train_over)
+
+result_table.append((cls.__class__.__name__, model))
+
+Plot the ROC curves
+
+fig = plt.figure(figsize=(8,6))
+
+for clf_name, model in result_table:
+
+plot_roc_curve(model, X_test, y_test, name=clf_name, ax=plt.gca(), lw=2)
+
+plt.plot([0, 1], [0, 1], color='orange', linestyle='--')
+
+plt.xlabel("False Positive Rate", fontsize=15)
+
+plt.ylabel("True Positive Rate", fontsize=15)
+
+plt.title('ROC Curve Analysis', fontweight='bold', fontsize=15)
+
+plt.legend(prop={'size': 13}, loc='lower right')
+
+plt.show()
+
+![roc](https://github.com/Mungaramary/Phase3/assets/99483846/aec1e842-c451-4357-ac84-d741f9cb253f)
+
+The best performing models will have a curve that hugs the upper left of the graph, which is the the random forest classifier in this case
+
+#### For the model comparisons we use the cross validation , accuracy , F1 score amd the pecision , Recall
+
+#### Model comparisions 
+For the accuracy we have 1) Gradient Boosting Classifier at 93
+                         2) Random Classifeir at 92
+                         3) Decision Tree Classifier at 88
+                         4) linear logistic at 77
+The best performing model will have the highest accuracy.
+Of the four models tested, random forest classifier has the highest accuracy
+
+#### Based on the Recall 
+The best performing model will have the highest recall that gives the highest recall score .
+#### Final model HYPERPARAMETER TUNED RANDOM FOREST MODEL
+
+HYPERPARAMETER TUNED RANDOM FOREST MODEL RESULTS 
+Accuracy score for testing set:  0.91929
+F1 score for testing set:  0.75
+Recall score for testing set:  0.74419
+Precision score for testing set:  0.75591
+
+Giging us the confusion matrix below
+![random confusion final](https://github.com/Mungaramary/Phase3/assets/99483846/9f02bc64-4a7a-430d-bf05-974de271a661)
+
+### RECOMENDATIONS
+
+![image](https://github.com/Mungaramary/Phase3/assets/99483846/922e41fe-0e65-4df6-8939-a7eae5989900)
 
